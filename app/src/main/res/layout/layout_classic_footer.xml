@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/tvLoadMore"
-            android:background="@drawable/ic_done" />
+            android:background="@drawable/ok" />
 
         <TextView
             android:id="@+id/tvLoadMore"
