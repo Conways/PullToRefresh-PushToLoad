@@ -1700,4 +1700,38 @@ public class SwipeToLoadLayout extends ViewGroup {
             Log.i(TAG, "printStatus:" + getStatus(status));
         }
     }
+
+
+
+    public interface SwipeTrigger{
+        void onPrepare();
+
+        void onMove(int y, boolean isComplete, boolean automatic);
+
+        void onRelease();
+
+        void onComplete();
+
+        void onReset();
+    }
+
+
+    public interface SwipeRefreshTrigger {
+        void onRefresh();
+    }
+
+
+    public interface SwipeLoadMoreTrigger {
+        void onLoadMore();
+    }
+
+
+    public interface OnRefreshListener {
+         void onRefresh();
+    }
+
+
+    public interface OnLoadMoreListener {
+         void onLoadMore();
+    }
 }

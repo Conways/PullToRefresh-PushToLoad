@@ -2,12 +2,9 @@ package com.conways.pulltorefresh_pushtoload;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.conways.pulltorefresh_pushtoload.wegit.OnLoadMoreListener;
-import com.conways.pulltorefresh_pushtoload.wegit.OnRefreshListener;
 import com.conways.pulltorefresh_pushtoload.wegit.SwipeToLoadLayout;
 
 

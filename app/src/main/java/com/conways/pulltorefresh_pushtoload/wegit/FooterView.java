@@ -2,17 +2,14 @@ package com.conways.pulltorefresh_pushtoload.wegit;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.conways.pulltorefresh_pushtoload.R;
 
-
-/**
- * Created by Aspsine on 2015/9/2.
- */
-public class FooterView extends SwipeLoadMoreFooterLayout {
+public class FooterView extends FrameLayout implements SwipeToLoadLayout.SwipeLoadMoreTrigger,SwipeToLoadLayout.SwipeTrigger {
     private TextView tvLoadMore;
     private ImageView ivSuccess;
     private ProgressBar progressBar;

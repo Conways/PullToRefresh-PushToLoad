@@ -2,9 +2,9 @@ package com.conways.pulltorefresh_pushtoload.wegit;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,10 +12,7 @@ import android.widget.TextView;
 import com.conways.pulltorefresh_pushtoload.R;
 
 
-/**
- * Created by Aspsine on 2015/9/9.
- */
-public class HeaderView extends SwipeRefreshHeaderLayout {
+public class HeaderView extends FrameLayout implements SwipeToLoadLayout.SwipeRefreshTrigger,SwipeToLoadLayout.SwipeTrigger {
 
     private ImageView ivArrow;
 
