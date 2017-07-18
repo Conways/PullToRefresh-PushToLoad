@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.conways.pulltorefresh_pushtoload.wegit.SwipeToLoadLayout;
 
 
-public class MainActivity extends AppCompatActivity implements OnRefreshListener,OnLoadMoreListener{
+public class MainActivity extends AppCompatActivity implements SwipeToLoadLayout.OnRefreshListener,SwipeToLoadLayout.OnLoadMoreListener {
 
     private SwipeToLoadLayout swipeToLoadLayout;
     private RecyclerView recyclerView;
