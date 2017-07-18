@@ -9,7 +9,7 @@
 
     <include
         android:id="@id/swipe_refresh_header"
-        layout="@layout/layout_twitter_header"/>
+        layout="@layout/header"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@id/swipe_target"
@@ -20,5 +20,5 @@
 
     <include
         android:id="@id/swipe_load_more_footer"
-        layout="@layout/layout_classic_footer"/>
+        layout="@layout/footer"/>
 </com.conways.pulltorefresh_pushtoload.wegit.SwipeToLoadLayout>

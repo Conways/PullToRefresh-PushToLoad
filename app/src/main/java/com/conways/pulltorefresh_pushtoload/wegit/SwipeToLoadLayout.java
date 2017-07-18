@@ -39,9 +39,6 @@ public class SwipeToLoadLayout extends ViewGroup {
 
     private static final int DEFAULT_DEFAULT_TO_LOADING_MORE_SCROLLING_DURATION = 300;
 
-    /**
-     * how hard to drag
-     */
     private static final float DEFAULT_DRAG_RATIO = 0.5f;
 
     private static final int INVALID_POINTER = -1;
@@ -64,14 +61,7 @@ public class SwipeToLoadLayout extends ViewGroup {
 
     private int mFooterHeight;
 
-//    private boolean mHasHeaderView;
-//
-//    private boolean mHasFooterView;
 
-    /**
-     * indicate whether in debug mode
-     */
-    private boolean mDebug;
 
     private float mDragRatio = DEFAULT_DRAG_RATIO;
 
@@ -465,9 +455,6 @@ public class SwipeToLoadLayout extends ViewGroup {
                         STATUS.isReleaseToRefresh(mStatus) || STATUS.isReleaseToLoadMore(mStatus)) {
                     // abort autoScrolling, not trigger the method #autoScrollFinished()
                     mAutoScroller.abortIfRunning();
-                    if (mDebug) {
-                        Log.i(TAG, "Another finger down, abort auto scrolling, let the new finger handle");
-                    }
                 }
 
                 if (STATUS.isSwipingToRefresh(mStatus) || STATUS.isReleaseToRefresh(mStatus)
@@ -622,14 +609,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         return super.onTouchEvent(event);
     }
 
-    /**
-     * set debug mode(default value false)
-     *
-     * @param debug if true log on, false log off
-     */
-    public void setDebug(boolean debug) {
-        this.mDebug = debug;
-    }
 
     /**
      * is refresh function is enabled
@@ -1225,9 +1204,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             mHeaderOffset = 0;
         }
 
-        if (mDebug) {
-            Log.i(TAG, "mTargetOffset = " + mTargetOffset);
-        }
         layoutChildren();
         invalidate();
     }
@@ -1357,9 +1333,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             throw new IllegalStateException("illegal state: " + STATUS.getStatus(mStatus));
         }
 
-        if (mDebug) {
-            Log.i(TAG, STATUS.getStatus(mLastStatus) + " -> " + STATUS.getStatus(mStatus));
-        }
     }
 
     /**
@@ -1603,9 +1576,6 @@ public class SwipeToLoadLayout extends ViewGroup {
      */
     private void setStatus(int status) {
         mStatus = status;
-        if (mDebug) {
-            STATUS.printStatus(status);
-        }
     }
 
     /**
