@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements SwipeToLoadLayout
         swipeToLoadLayout.setOnLoadMoreListener(this);
         swipeToLoadLayout.setRefreshing(true);
         recyclerView=(RecyclerView)this.findViewById(R.id.swipe_target);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
         list.clear();
         for (int i = 0; i < 8; i++) {
             list.add(i);
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity implements SwipeToLoadLayout
             public void run() {
                 try {
                     Thread.sleep(2000l);
-                    list.add(list.size());
+                    for (int i = 0; i < 5; i++) {
+                        list.add(list.size()+i);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
