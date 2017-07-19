@@ -17,7 +17,6 @@ import com.conways.pulltorefresh_pushtoload.R;
 
 public class SwipeToLoadLayout extends ViewGroup {
 
-    private static final String TAG = SwipeToLoadLayout.class.getSimpleName();
 
     private static final int DEFAULT_SWIPING_TO_REFRESH_TO_DEFAULT_SCROLLING_DURATION = 200;
 
@@ -67,166 +66,61 @@ public class SwipeToLoadLayout extends ViewGroup {
 
     private boolean mAutoLoading;
 
-    /**
-     * the threshold of the touch event
-     */
     private final int mTouchSlop;
 
-    /**
-     * status of SwipeToLoadLayout
-     */
     private int mStatus = STATUS.STATUS_DEFAULT;
 
-    /**
-     * target view top offset
-     */
     private int mHeaderOffset;
 
-    /**
-     * target offset
-     */
     private int mTargetOffset;
 
-    /**
-     * target view bottom offset
-     */
     private int mFooterOffset;
 
-    /**
-     * init touch action down point.y
-     */
     private float mInitDownY;
 
-    /**
-     * init touch action down point.x
-     */
     private float mInitDownX;
 
-    /**
-     * last touch point.y
-     */
     private float mLastY;
 
-    /**
-     * last touch point.x
-     */
     private float mLastX;
 
-    /**
-     * action touch pointer's id
-     */
     private int mActivePointerId;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * a switcher indicate whither refresh function is enabled
-     */
     private boolean mRefreshEnabled = true;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * a switcher indicate whiter load more function is enabled
-     */
     private boolean mLoadMoreEnabled = true;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * the style default classic
-     */
     private int mStyle = STYLE.CLASSIC;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * offset to trigger refresh
-     */
     private float mRefreshTriggerOffset;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * offset to trigger load more
-     */
     private float mLoadMoreTriggerOffset;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * the max value of top offset
-     */
     private float mRefreshFinalDragOffset;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * the max value of bottom offset
-     */
     private float mLoadMoreFinalDragOffset;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration swiping to refresh -> default
-     */
     private int mSwipingToRefreshToDefaultScrollingDuration = DEFAULT_SWIPING_TO_REFRESH_TO_DEFAULT_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status release to refresh -> refreshing
-     */
     private int mReleaseToRefreshToRefreshingScrollingDuration = DEFAULT_RELEASE_TO_REFRESHING_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Refresh complete delay duration
-     */
     private int mRefreshCompleteDelayDuration = DEFAULT_REFRESH_COMPLETE_DELAY_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status refresh complete -> default
-     * {@link #setRefreshing(boolean)} false
-     */
     private int mRefreshCompleteToDefaultScrollingDuration = DEFAULT_REFRESH_COMPLETE_TO_DEFAULT_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status default -> refreshing, mainly for auto refresh
-     * {@link #setRefreshing(boolean)} true
-     */
     private int mDefaultToRefreshingScrollingDuration = DEFAULT_DEFAULT_TO_REFRESHING_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status release to loading more -> loading more
-     */
     private int mReleaseToLoadMoreToLoadingMoreScrollingDuration = DEFAULT_RELEASE_TO_LOADING_MORE_SCROLLING_DURATION;
 
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Load more complete delay duration
-     */
     private int mLoadMoreCompleteDelayDuration = DEFAULT_LOAD_MORE_COMPLETE_DELAY_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status load more complete -> default
-     * {@link #setLoadingMore(boolean)} false
-     */
     private int mLoadMoreCompleteToDefaultScrollingDuration = DEFAULT_LOAD_MORE_COMPLETE_TO_DEFAULT_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration swiping to load more -> default
-     */
     private int mSwipingToLoadMoreToDefaultScrollingDuration = DEFAULT_SWIPING_TO_LOAD_MORE_TO_DEFAULT_SCROLLING_DURATION;
 
-    /**
-     * <b>ATTRIBUTE:</b>
-     * Scrolling duration status default -> loading more, mainly for auto load more
-     * {@link #setLoadingMore(boolean)} true
-     */
     private int mDefaultToLoadingMoreScrollingDuration = DEFAULT_DEFAULT_TO_LOADING_MORE_SCROLLING_DURATION;
 
-    /**
-     * the style enum
-     */
     public static final class STYLE {
         public static final int CLASSIC = 0;
         public static final int ABOVE = 1;
@@ -318,14 +212,12 @@ public class SwipeToLoadLayout extends ViewGroup {
         super.onFinishInflate();
         final int childNum = getChildCount();
         if (childNum == 0) {
-            // no child return
             return;
         } else if (0 < childNum && childNum < 4) {
             mHeaderView = findViewById(R.id.swipe_refresh_header);
             mTargetView = findViewById(R.id.swipe_target);
             mFooterView = findViewById(R.id.swipe_load_more_footer);
         } else {
-            // more than three children: unsupported!
             throw new IllegalStateException("Children num must equal or less than 3");
         }
         if (mTargetView == null) {
@@ -342,7 +234,6 @@ public class SwipeToLoadLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // header
         if (mHeaderView != null) {
             final View headerView = mHeaderView;
             measureChildWithMargins(headerView, widthMeasureSpec, 0, heightMeasureSpec, 0);
@@ -352,12 +243,10 @@ public class SwipeToLoadLayout extends ViewGroup {
                 mRefreshTriggerOffset = mHeaderHeight;
             }
         }
-        // target
         if (mTargetView != null) {
             final View targetView = mTargetView;
             measureChildWithMargins(targetView, widthMeasureSpec, 0, heightMeasureSpec, 0);
         }
-        // footer
         if (mFooterView != null) {
             final View footerView = mFooterView;
             measureChildWithMargins(footerView, widthMeasureSpec, 0, heightMeasureSpec, 0);
@@ -375,10 +264,6 @@ public class SwipeToLoadLayout extends ViewGroup {
 
     }
 
-    /**
-     * TODO add gravity
-     * LayoutParams of RefreshLoadMoreLayout
-     */
     public static class LayoutParams extends MarginLayoutParams {
 
         public LayoutParams(Context c, AttributeSet attrs) {
@@ -398,25 +283,16 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
         return new LayoutParams(p);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
@@ -428,12 +304,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                // swipeToRefresh -> finger up -> finger down if the status is still swipeToRefresh
-                // in onInterceptTouchEvent ACTION_DOWN event will stop the scroller
-                // if the event pass to the child view while ACTION_MOVE(condition is false)
-                // in onInterceptTouchEvent ACTION_MOVE the ACTION_UP or ACTION_CANCEL will not be
-                // passed to onInterceptTouchEvent and onTouchEvent. Instead It will be passed to
-                // child view's onTouchEvent. So we must deal this situation in dispatchTouchEvent
                 onActivePointerUp();
                 break;
         }
@@ -450,10 +320,8 @@ public class SwipeToLoadLayout extends ViewGroup {
                 mInitDownY = mLastY = getMotionEventY(event, mActivePointerId);
                 mInitDownX = mLastX = getMotionEventX(event, mActivePointerId);
 
-                // if it isn't an ing status or default status
                 if (STATUS.isSwipingToRefresh(mStatus) || STATUS.isSwipingToLoadMore(mStatus) ||
                         STATUS.isReleaseToRefresh(mStatus) || STATUS.isReleaseToLoadMore(mStatus)) {
-                    // abort autoScrolling, not trigger the method #autoScrollFinished()
                     mAutoScroller.abortIfRunning();
                 }
 
@@ -462,19 +330,6 @@ public class SwipeToLoadLayout extends ViewGroup {
                     return true;
                 }
 
-                // let children view handle the ACTION_DOWN;
-
-                // 1. children consumed:
-                // if at least one of children onTouchEvent() ACTION_DOWN return true.
-                // ACTION_DOWN event will not return to SwipeToLoadLayout#onTouchEvent().
-                // but the others action can be handled by SwipeToLoadLayout#onInterceptTouchEvent()
-
-                // 2. children not consumed:
-                // if children onTouchEvent() ACTION_DOWN return false.
-                // ACTION_DOWN event will return to SwipeToLoadLayout's onTouchEvent().
-                // SwipeToLoadLayout#onTouchEvent() ACTION_DOWN return true to consume the ACTION_DOWN event.
-
-                // anyway: handle action down in onInterceptTouchEvent() to init is an good option
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mActivePointerId == INVALID_POINTER) {
@@ -489,13 +344,9 @@ public class SwipeToLoadLayout extends ViewGroup {
                 boolean moved = Math.abs(yInitDiff) > Math.abs(xInitDiff)
                         && Math.abs(yInitDiff) > mTouchSlop;
                 boolean triggerCondition =
-                        // refresh trigger condition
                         (yInitDiff > 0 && moved && onCheckCanRefresh()) ||
-                                //load more trigger condition
                                 (yInitDiff < 0 && moved && onCheckCanLoadMore());
                 if (triggerCondition) {
-                    // if the refresh's or load more's trigger condition  is true,
-                    // intercept the move action event and pass it to SwipeToLoadLayout#onTouchEvent()
                     return true;
                 }
                 break;
@@ -523,8 +374,6 @@ public class SwipeToLoadLayout extends ViewGroup {
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-                // take over the ACTION_MOVE event from SwipeToLoadLayout#onInterceptTouchEvent()
-                // if condition is true
                 final float y = getMotionEventY(event, mActivePointerId);
                 final float x = getMotionEventX(event, mActivePointerId);
 
@@ -610,66 +459,30 @@ public class SwipeToLoadLayout extends ViewGroup {
     }
 
 
-    /**
-     * is refresh function is enabled
-     *
-     * @return
-     */
     public boolean isRefreshEnabled() {
         return mRefreshEnabled;
     }
 
-    /**
-     * switch refresh function on or off
-     *
-     * @param enable
-     */
     public void setRefreshEnabled(boolean enable) {
         this.mRefreshEnabled = enable;
     }
 
-    /**
-     * is load more function is enabled
-     *
-     * @return
-     */
     public boolean isLoadMoreEnabled() {
         return mLoadMoreEnabled;
     }
 
-    /**
-     * switch load more function on or off
-     *
-     * @param enable
-     */
     public void setLoadMoreEnabled(boolean enable) {
         this.mLoadMoreEnabled = enable;
     }
 
-    /**
-     * is current status refreshing
-     *
-     * @return
-     */
     public boolean isRefreshing() {
         return STATUS.isRefreshing(mStatus);
     }
 
-    /**
-     * is current status loading more
-     *
-     * @return
-     */
     public boolean isLoadingMore() {
         return STATUS.isLoadingMore(mStatus);
     }
 
-    /**
-     * set refresh header view, the view must at lease be an implement of {@code SwipeRefreshTrigger}.
-     * the view can also implement {@code SwipeTrigger} for more extension functions
-     *
-     * @param view
-     */
     public void setRefreshHeaderView(View view) {
         if (view instanceof SwipeRefreshTrigger) {
             if (mHeaderView != null && mHeaderView != view) {
@@ -679,17 +492,9 @@ public class SwipeToLoadLayout extends ViewGroup {
                 this.mHeaderView = view;
                 addView(view);
             }
-        } else {
-            Log.e(TAG, "Refresh header view must be an implement of SwipeRefreshTrigger");
         }
     }
 
-    /**
-     * set load more footer view, the view must at least be an implement of SwipeLoadTrigger
-     * the view can also implement {@code SwipeTrigger} for more extension functions
-     *
-     * @param view
-     */
     public void setLoadMoreFooterView(View view) {
         if (view instanceof SwipeLoadMoreTrigger) {
             if (mFooterView != null && mFooterView != view) {
@@ -699,189 +504,80 @@ public class SwipeToLoadLayout extends ViewGroup {
                 this.mFooterView = view;
                 addView(mFooterView);
             }
-        } else {
-            Log.e(TAG, "Load more footer view must be an implement of SwipeLoadTrigger");
         }
     }
 
-    /**
-     * set the style of the refresh header
-     *
-     * @param style
-     */
     public void setSwipeStyle(int style) {
         this.mStyle = style;
         requestLayout();
     }
 
-    /**
-     * set how hard to drag. bigger easier, smaller harder;
-     *
-     * @param dragRatio default value is {@link #DEFAULT_DRAG_RATIO}
-     */
     public void setDragRatio(float dragRatio) {
         this.mDragRatio = dragRatio;
     }
 
-    /**
-     * set the value of {@link #mRefreshTriggerOffset}.
-     * Default value is the refresh header view height {@link #mHeaderHeight}<p/>
-     * If the offset you set is smaller than {@link #mHeaderHeight} or not set,
-     * using {@link #mHeaderHeight} as default value
-     *
-     * @param offset
-     */
     public void setRefreshTriggerOffset(int offset) {
         mRefreshTriggerOffset = offset;
     }
 
-    /**
-     * set the value of {@link #mLoadMoreTriggerOffset}.
-     * Default value is the load more footer view height {@link #mFooterHeight}<p/>
-     * If the offset you set is smaller than {@link #mFooterHeight} or not set,
-     * using {@link #mFooterHeight} as default value
-     *
-     * @param offset
-     */
     public void setLoadMoreTriggerOffset(int offset) {
         mLoadMoreTriggerOffset = offset;
     }
 
-    /**
-     * Set the final offset you can swipe to refresh.<br/>
-     * If the offset you set is 0(default value) or smaller than {@link #mRefreshTriggerOffset}
-     * there no final offset
-     *
-     * @param offset
-     */
     public void setRefreshFinalDragOffset(int offset) {
         mRefreshFinalDragOffset = offset;
     }
 
-    /**
-     * Set the final offset you can swipe to load more.<br/>
-     * If the offset you set is 0(default value) or smaller than {@link #mLoadMoreTriggerOffset},
-     * there no final offset
-     *
-     * @param offset
-     */
     public void setLoadMoreFinalDragOffset(int offset) {
         mLoadMoreFinalDragOffset = offset;
     }
 
-    /**
-     * set {@link #mSwipingToRefreshToDefaultScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setSwipingToRefreshToDefaultScrollingDuration(int duration) {
         this.mSwipingToRefreshToDefaultScrollingDuration = duration;
     }
-
-    /**
-     * set {@link #mReleaseToRefreshToRefreshingScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setReleaseToRefreshingScrollingDuration(int duration) {
         this.mReleaseToRefreshToRefreshingScrollingDuration = duration;
     }
 
-    /**
-     * set {@link #mRefreshCompleteDelayDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setRefreshCompleteDelayDuration(int duration) {
         this.mRefreshCompleteDelayDuration = duration;
     }
 
-    /**
-     * set {@link #mRefreshCompleteToDefaultScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setRefreshCompleteToDefaultScrollingDuration(int duration) {
         this.mRefreshCompleteToDefaultScrollingDuration = duration;
     }
 
-    /**
-     * set {@link #mDefaultToRefreshingScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setDefaultToRefreshingScrollingDuration(int duration) {
         this.mDefaultToRefreshingScrollingDuration = duration;
     }
 
-    /**
-     * set {@link @mSwipingToLoadMoreToDefaultScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setSwipingToLoadMoreToDefaultScrollingDuration(int duration) {
         this.mSwipingToLoadMoreToDefaultScrollingDuration = duration;
     }
 
-    /**
-     * set {@link #mReleaseToLoadMoreToLoadingMoreScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setReleaseToLoadingMoreScrollingDuration(int duration) {
         this.mReleaseToLoadMoreToLoadingMoreScrollingDuration = duration;
     }
 
-    /**
-     * set {@link #mLoadMoreCompleteDelayDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setLoadMoreCompleteDelayDuration(int duration) {
         this.mLoadMoreCompleteDelayDuration = duration;
     }
 
-    /**
-     * set {@link #mLoadMoreCompleteToDefaultScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setLoadMoreCompleteToDefaultScrollingDuration(int duration) {
         this.mLoadMoreCompleteToDefaultScrollingDuration = duration;
     }
 
-    /**
-     * set {@link #mDefaultToLoadingMoreScrollingDuration} in milliseconds
-     *
-     * @param duration
-     */
     public void setDefaultToLoadingMoreScrollingDuration(int duration) {
         this.mDefaultToLoadingMoreScrollingDuration = duration;
     }
 
-    /**
-     * set an {@link OnRefreshListener} to listening refresh event
-     *
-     * @param listener
-     */
     public void setOnRefreshListener(OnRefreshListener listener) {
         this.mRefreshListener = listener;
     }
-
-    /**
-     * set an {@link OnLoadMoreListener} to listening load more event
-     *
-     * @param listener
-     */
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
         this.mLoadMoreListener = listener;
     }
 
-    /**
-     * auto refresh or cancel
-     *
-     * @param refreshing
-     */
     public void setRefreshing(boolean refreshing) {
         if (!isRefreshEnabled() || mHeaderView == null) {
             return;
@@ -905,11 +601,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * auto loading more or cancel
-     *
-     * @param loadingMore
-     */
     public void setLoadingMore(boolean loadingMore) {
         if (!isLoadMoreEnabled() || mFooterView == null) {
             return;
@@ -933,12 +624,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * copy from {@link android.support.v4.widget.SwipeRefreshLayout#canChildScrollUp()}
-     *
-     * @return Whether it is possible for the child view of this layout to
-     * scroll up. Override this if the child view is a custom view.
-     */
     protected boolean canChildScrollUp() {
         if (android.os.Build.VERSION.SDK_INT < 14) {
             if (mTargetView instanceof AbsListView) {
@@ -954,12 +639,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * Whether it is possible for the child view of this layout to
-     * scroll down. Override this if the child view is a custom view.
-     *
-     * @return
-     */
     protected boolean canChildScrollDown() {
         if (android.os.Build.VERSION.SDK_INT < 14) {
             if (mTargetView instanceof AbsListView) {
@@ -975,9 +654,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * @see #onLayout(boolean, int, int, int, int)
-     */
     private void layoutChildren() {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
@@ -991,7 +667,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             return;
         }
 
-        // layout header
         if (mHeaderView != null) {
             final View headerView = mHeaderView;
             MarginLayoutParams lp = (MarginLayoutParams) headerView.getLayoutParams();
@@ -999,23 +674,18 @@ public class SwipeToLoadLayout extends ViewGroup {
             final int headerTop;
             switch (mStyle) {
                 case STYLE.CLASSIC:
-                    // classic
                     headerTop = paddingTop + lp.topMargin - mHeaderHeight + mHeaderOffset;
                     break;
                 case STYLE.ABOVE:
-                    // classic
                     headerTop = paddingTop + lp.topMargin - mHeaderHeight + mHeaderOffset;
                     break;
                 case STYLE.BLEW:
-                    // blew
                     headerTop = paddingTop + lp.topMargin;
                     break;
                 case STYLE.SCALE:
-                    // scale
                     headerTop = paddingTop + lp.topMargin - mHeaderHeight / 2 + mHeaderOffset / 2;
                     break;
                 default:
-                    // classic
                     headerTop = paddingTop + lp.topMargin - mHeaderHeight + mHeaderOffset;
                     break;
             }
@@ -1025,7 +695,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
 
 
-        // layout target
         if (mTargetView != null) {
             final View targetView = mTargetView;
             MarginLayoutParams lp = (MarginLayoutParams) targetView.getLayoutParams();
@@ -1034,23 +703,18 @@ public class SwipeToLoadLayout extends ViewGroup {
 
             switch (mStyle) {
                 case STYLE.CLASSIC:
-                    // classic
                     targetTop = paddingTop + lp.topMargin + mTargetOffset;
                     break;
                 case STYLE.ABOVE:
-                    // above
                     targetTop = paddingTop + lp.topMargin;
                     break;
                 case STYLE.BLEW:
-                    // classic
                     targetTop = paddingTop + lp.topMargin + mTargetOffset;
                     break;
                 case STYLE.SCALE:
-                    // classic
                     targetTop = paddingTop + lp.topMargin + mTargetOffset;
                     break;
                 default:
-                    // classic
                     targetTop = paddingTop + lp.topMargin + mTargetOffset;
                     break;
             }
@@ -1059,7 +723,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             targetView.layout(targetLeft, targetTop, targetRight, targetBottom);
         }
 
-        // layout footer
         if (mFooterView != null) {
             final View footerView = mFooterView;
             MarginLayoutParams lp = (MarginLayoutParams) footerView.getLayoutParams();
@@ -1067,23 +730,18 @@ public class SwipeToLoadLayout extends ViewGroup {
             final int footerBottom;
             switch (mStyle) {
                 case STYLE.CLASSIC:
-                    // classic
                     footerBottom = height - paddingBottom - lp.bottomMargin + mFooterHeight + mFooterOffset;
                     break;
                 case STYLE.ABOVE:
-                    // classic
                     footerBottom = height - paddingBottom - lp.bottomMargin + mFooterHeight + mFooterOffset;
                     break;
                 case STYLE.BLEW:
-                    // blew
                     footerBottom = height - paddingBottom - lp.bottomMargin;
                     break;
                 case STYLE.SCALE:
-                    // scale
                     footerBottom = height - paddingBottom - lp.bottomMargin + mFooterHeight / 2 + mFooterOffset / 2;
                     break;
                 default:
-                    // classic
                     footerBottom = height - paddingBottom - lp.bottomMargin + mFooterHeight + mFooterOffset;
                     break;
             }
@@ -1184,12 +842,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         updateScroll(yScrolled);
     }
 
-    /**
-     * Process the scrolling(auto or physical) and append the diff values to mTargetOffset
-     * I think it's the most busy and core method. :) a ha ha ha ha...
-     *
-     * @param yScrolled
-     */
     private void updateScroll(final float yScrolled) {
         if (yScrolled == 0) {
             return;
@@ -1208,42 +860,28 @@ public class SwipeToLoadLayout extends ViewGroup {
         invalidate();
     }
 
-    /**
-     * on active finger up
-     */
     private void onActivePointerUp() {
         if (STATUS.isSwipingToRefresh(mStatus)) {
-            // simply return
             scrollSwipingToRefreshToDefault();
 
         } else if (STATUS.isSwipingToLoadMore(mStatus)) {
-            // simply return
             scrollSwipingToLoadMoreToDefault();
 
         } else if (STATUS.isReleaseToRefresh(mStatus)) {
-            // return to header height and perform refresh
             mRefreshCallback.onRelease();
             scrollReleaseToRefreshToRefreshing();
 
         } else if (STATUS.isReleaseToLoadMore(mStatus)) {
-            // return to footer height and perform loadMore
             mLoadMoreCallback.onRelease();
             scrollReleaseToLoadMoreToLoadingMore();
 
         }
     }
 
-    /**
-     * on not active finger up
-     *
-     * @param ev
-     */
     private void onSecondaryPointerUp(MotionEvent ev) {
         final int pointerIndex = MotionEventCompat.getActionIndex(ev);
         final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
         if (pointerId == mActivePointerId) {
-            // This was our active pointer going up. Choose a new
-            // active pointer and adjust accordingly.
             final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
             mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
         }
@@ -1281,9 +919,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         mAutoScroller.autoScroll(-mFooterOffset, mLoadMoreCompleteToDefaultScrollingDuration);
     }
 
-    /**
-     * invoke when {@link AutoScroller#finish()} is automatic
-     */
     private void autoScrollFinished() {
         int mLastStatus = mStatus;
 
@@ -1335,22 +970,12 @@ public class SwipeToLoadLayout extends ViewGroup {
 
     }
 
-    /**
-     * check if it can refresh
-     *
-     * @return
-     */
     private boolean onCheckCanRefresh() {
 
         return mRefreshEnabled && !canChildScrollUp() && mHeaderView!=null && mRefreshTriggerOffset
                 > 0;
     }
 
-    /**
-     * check if it can load more
-     *
-     * @return
-     */
     private boolean onCheckCanLoadMore() {
 
         return mLoadMoreEnabled && !canChildScrollDown() && mFooterView!=null &&
@@ -1482,15 +1107,9 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     };
 
-    /**
-     * refresh event callback
-     */
     abstract class RefreshCallback implements SwipeTrigger, SwipeRefreshTrigger {
     }
 
-    /**
-     * load more event callback
-     */
     abstract class LoadMoreCallback implements SwipeTrigger, SwipeLoadMoreTrigger {
     }
 
@@ -1522,22 +1141,15 @@ public class SwipeToLoadLayout extends ViewGroup {
             }
         }
 
-        /**
-         * remove the post callbacks and reset default values
-         */
         private void finish() {
             mmLastY = 0;
             mRunning = false;
             removeCallbacks(this);
-            // if abort by user, don't call
             if (!mAbort) {
                 autoScrollFinished();
             }
         }
 
-        /**
-         * abort scroll if it is scrolling
-         */
         public void abortIfRunning() {
             if (mRunning) {
                 if (!mScroller.isFinished()) {
@@ -1549,14 +1161,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             }
         }
 
-        /**
-         * The param yScrolled here isn't final pos of y.
-         * It's just like the yScrolled param in the
-         * {@link #updateScroll(float yScrolled)}
-         *
-         * @param yScrolled
-         * @param duration
-         */
         private void autoScroll(int yScrolled, int duration) {
             removeCallbacks(this);
             mmLastY = 0;
@@ -1569,21 +1173,11 @@ public class SwipeToLoadLayout extends ViewGroup {
         }
     }
 
-    /**
-     * Set the current status for better control
-     *
-     * @param status
-     */
     private void setStatus(int status) {
         mStatus = status;
     }
 
-    /**
-     * an inner util class.
-     * enum of status
-     */
     private final static class STATUS {
-//        private static final int STATUS_REFRESH_RETURNING = -4;
         private static final int STATUS_REFRESHING = -3;
         private static final int STATUS_RELEASE_TO_REFRESH = -2;
         private static final int STATUS_SWIPING_TO_REFRESH = -1;
@@ -1632,9 +1226,6 @@ public class SwipeToLoadLayout extends ViewGroup {
         private static String getStatus(int status) {
             final String statusInfo;
             switch (status) {
-//                case STATUS_REFRESH_RETURNING:
-//                    statusInfo = "status_refresh_returning";
-//                    break;
                 case STATUS_REFRESHING:
                     statusInfo = "status_refreshing";
                     break;
@@ -1666,9 +1257,6 @@ public class SwipeToLoadLayout extends ViewGroup {
             return statusInfo;
         }
 
-        private static void printStatus(int status) {
-            Log.i(TAG, "printStatus:" + getStatus(status));
-        }
     }
 
 
