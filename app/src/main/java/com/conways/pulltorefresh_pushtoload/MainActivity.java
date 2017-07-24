@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements SwipeToLoadLayout
         swipeToLoadLayout.setOnLoadMoreListener(this);
         swipeToLoadLayout.setRefreshing(true);
         recyclerView=(RecyclerView)this.findViewById(R.id.swipe_target);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+//        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         list.clear();
         for (int i = 0; i < 8; i++) {
             list.add(i);
